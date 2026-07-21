@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 # 1. Load image relative to script location
-path = "/home/itl7/CV_prac/Exp2/salimg.jpeg"
+path = "/home/itl7/CV_prac/Exp2/agri.jpeg"
 
 image = cv2.imread(path)
 if image is None:
@@ -59,8 +59,8 @@ blob_img = cv2.drawKeypoints(
 )
 
 # --- Save Results ---
-cv2.imwrite("salHarris_Corners.jpg", corner_img)
-cv2.imwrite("salInterest_Points.jpg", interest_img)
-cv2.imwrite("salBlob_Detection.jpg", blob_img)
+cv2.imwrite("agriHarris_Corners.jpg", corner_img)
+cv2.imwrite("agriInterest_Points.jpg", interest_img)
+cv2.imwrite("agriBlob_Detection.jpg", blob_img)
 
 print("Saved updated images with larger dots and thicker borders successfully!")
