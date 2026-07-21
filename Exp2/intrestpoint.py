@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 # 1. Load image relative to script location
-path = "/home/itl7/CV_prac/Exp2/3533916.jpg"
+path = "/home/itl7/CV_prac/Exp2/salimg.jpeg"
 
 image = cv2.imread(path)
 if image is None:
@@ -17,21 +17,21 @@ gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # --- 1. Harris Corner Detector ---
 gray_float = np.float32(gray)
-harris = cv2.cornerHarris(gray_float, blockSize=2, ksize=3, k=0.04,thickness=3)
+harris = cv2.cornerHarris(gray_float, blockSize=2, ksize=3, k=0.04)
 # Increase dilation kernel to make Harris dots larger/bolder
-kernel = np.ones((5, 5), np.uint8)
+kernel = np.ones((2, 2), np.uint8)
 harris = cv2.dilate(harris, kernel)
 corner_img[harris > 0.01 * harris.max()] = [0, 0, 255]
 
 # --- 2. Shi-Tomasi Corner Detector ---
-corners = cv2.goodFeaturesToTrack(gray, maxCorners=150, qualityLevel=0.01, minDistance=10)
+corners = cv2.goodFeaturesToTrack(gray, maxCorners=100, qualityLevel=0.01, minDistance=10)
 if corners is not None:
     corners = np.int32(corners)
     for c in corners:
         x, y = c.ravel()
         # --- INCREASED DOT SIZE & BORDER ---
         # radius=10 makes the dot bigger; thickness=3 adds a bold border (or use -1 for filled)
-        cv2.circle(interest_img, (x, y), radius=10, color=(0, 255, 0), thickness=3)
+        cv2.circle(interest_img, (x, y), radius=2, color=(0, 255, 0), thickness=2)
 
 # --- 3. Blob Detector ---
 params = cv2.SimpleBlobDetector_Params()
@@ -59,8 +59,8 @@ blob_img = cv2.drawKeypoints(
 )
 
 # --- Save Results ---
-cv2.imwrite("Harris_Corners.jpg", corner_img)
-cv2.imwrite("Interest_Points.jpg", interest_img)
-cv2.imwrite("Blob_Detection.jpg", blob_img)
+cv2.imwrite("salHarris_Corners.jpg", corner_img)
+cv2.imwrite("salInterest_Points.jpg", interest_img)
+cv2.imwrite("salBlob_Detection.jpg", blob_img)
 
 print("Saved updated images with larger dots and thicker borders successfully!")
